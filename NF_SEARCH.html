@@ -45,7 +45,7 @@
       background-size: contain;
       background-repeat: no-repeat;
       padding: 30px; /* 調整標題欄的內邊距 */
-      color: white; /* 設置标题文字顏色為白色 */
+      color: white; /* 設置标题文字颜色为白色 */
     }
 
     .player-info p {
@@ -74,7 +74,7 @@
   <script>
     const apiKey = 'AIzaSyDzJLX9I7vycDKg8RpVXINFpQN-WkOfpqo'; // 替換為你的 Google Sheets API 金鑰
     const spreadsheetId = '19DNcf-Sdlaiji-RtqsvNafd1ec3FMY8WW99ku_7ingo'; // 替換為你的 Google Sheets 試算表 ID
-    const sheetName = '名單!B:F'; // 替換為你的工作表名稱和搜尋範圍（A 到 E 欄）
+    const sheetName = '名單!B:G'; // 替換為你的工作表名稱和搜尋範圍（A 到 E 欄）
 
     function searchPlayers() {
       const searchText = document.getElementById('searchtext').value;
@@ -112,40 +112,45 @@
     }
 
     function displaySearchResults(results) {
-      const searchResultsContainer = document.getElementById('search-results');
-      searchResultsContainer.innerHTML = ''; // 清空之前的搜索結果
-      if (results.length === 0) {
-        searchResultsContainer.innerHTML = '<p>戰隊中無此位選手。</p>';
-      } else {
-        results.forEach(player => {
-          const playerInfo = document.createElement('div');
-          playerInfo.classList.add('player-info');
+  const searchResultsContainer = document.getElementById('search-results');
+  searchResultsContainer.innerHTML = ''; // 清空之前的搜索結果
+  if (results.length === 0) {
+    searchResultsContainer.innerHTML = '<p>戰隊中無此位選手。</p>';
+  } else {
+    results.forEach(player => {
+      const playerInfo = document.createElement('div');
+      playerInfo.classList.add('player-info');
 
-          const name = document.createElement('p');
-          name.textContent = '館數：' + player[0] + '館';
+      const name = document.createElement('p');
+      name.textContent = '館數：' + (player[0] || '無') + '館';
 
-          const city = document.createElement('p');
-          city.textContent = 'UID：' + player[1];
+      const uid = document.createElement('p');
+      uid.textContent = 'UID：' + (player[1] || '無');
 
-          const age = document.createElement('p');
-          age.textContent = '遊戲名：' + player[2];
+      const gameName = document.createElement('p');
+      gameName.textContent = '遊戲名：' + (player[2] || '無');
 
-          const team = document.createElement('p');
-          team.textContent = '職位：' + player[3];
+      const gender = document.createElement('p');
+      gender.textContent = '性別：' + (player[3] || '無');
 
-          const position = document.createElement('p');
-          position.textContent = '暱稱：' + player[4];
+      const position = document.createElement('p');
+      position.textContent = '職位：' + (player[4] || '無');
+      
+      const nickname = document.createElement('p');
+      nickname.textContent = '暱稱：' + (player[5] || '無');
 
-          playerInfo.appendChild(name);
-          playerInfo.appendChild(city);
-          playerInfo.appendChild(age);
-          playerInfo.appendChild(team);
-          playerInfo.appendChild(position);
+      playerInfo.appendChild(name);
+      playerInfo.appendChild(uid);
+      playerInfo.appendChild(gameName);
+      playerInfo.appendChild(gender);
+      playerInfo.appendChild(position);
+      playerInfo.appendChild(nickname);
 
-          searchResultsContainer.appendChild(playerInfo);
-        });
-      }
-    }
+      searchResultsContainer.appendChild(playerInfo);
+    });
+  }
+}
+
   </script>
 </body>
 </html>
