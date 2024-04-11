@@ -39,16 +39,19 @@
     }
 
     .page-title {
-  text-align: center;
-  font-family: Arial, sans-serif; /* 添加字体系列 */
-  font-size: 30px;
-  margin-bottom: 40px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  padding: 30px; /* 調整標題欄的內邊距 */
-  color: white; /* 设置标题文字颜色为红色 */
-}
+      text-align: center;
+      font-family: Arial, sans-serif; /* 添加字体系列 */
+      font-size: 30px;
+      margin-bottom: 40px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      padding: 30px; /* 調整標題欄的內邊距 */
+      color: white; /* 设置标题文字颜色为红色 */
+    }
 
+    .player-info p {
+      color: white; /* 设置玩家信息文字颜色為白色 */
+    }
   </style>
 </head>
 <body>
@@ -72,7 +75,7 @@
   <script>
     const apiKey = 'AIzaSyDzJLX9I7vycDKg8RpVXINFpQN-WkOfpqo'; // 替換為你的 Google Sheets API 金鑰
     const spreadsheetId = '1SCvlehLoGoDGIPVte1YzfyDDjtX8z2NhF9JRnjkqeL4'; // 替換為你的 Google Sheets 試算表 ID
-    const sheetName = '名單!B:F'; // 替換為你的工作表名稱和搜尋範圍（A 到 E 欄）
+    const sheetName = '名單!B:G'; // 替換為你的工作表名稱和搜尋範圍（A 到 E 欄）
 
     function searchPlayers() {
       const searchText = document.getElementById('searchtext').value;
@@ -120,25 +123,30 @@
           playerInfo.classList.add('player-info');
 
           const name = document.createElement('p');
-          name.textContent = '館數：' + player[0] + '館';
+          name.textContent = '館數：' + (player[0] || '無') + '館';
 
-          const city = document.createElement('p');
-          city.textContent = 'UID：' + player[1];
+          const uid = document.createElement('p');
+          uid.textContent = 'UID：' + (player[1] || '無');
 
-          const age = document.createElement('p');
-          age.textContent = '遊戲名：' + player[2];
-
-          const team = document.createElement('p');
-          team.textContent = '職位：' + player[3];
+          const gameName = document.createElement('p');
+          gameName.textContent = '遊戲名：' + (player[2] || '無');
 
           const position = document.createElement('p');
-          position.textContent = '備註：' + player[4];
+          position.textContent = '職位：' + (player[3] || '無');
+
+          const dcPermission = document.createElement('p');
+          const dcStatus = player[4] === 'TRUE' ? '已申請DC權限' : '尚未申請DC權限';
+          dcPermission.textContent = 'DC權限：' + dcStatus;
+			
+		  const remarks = document.createElement('p');
+          remarks.textContent = '備註：' + (player[5] || '無');
 
           playerInfo.appendChild(name);
-          playerInfo.appendChild(city);
-          playerInfo.appendChild(age);
-          playerInfo.appendChild(team);
+          playerInfo.appendChild(uid);
+          playerInfo.appendChild(gameName);
           playerInfo.appendChild(position);
+          playerInfo.appendChild(dcPermission);
+          playerInfo.appendChild(remarks);
 
           searchResultsContainer.appendChild(playerInfo);
         });
